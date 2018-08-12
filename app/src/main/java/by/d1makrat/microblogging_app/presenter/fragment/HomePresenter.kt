@@ -1,6 +1,5 @@
 package by.d1makrat.microblogging_app.presenter.fragment
 
-import android.util.Log
 import by.d1makrat.microblogging_app.model.Post
 import by.d1makrat.microblogging_app.workers.FirebaseAuthenticationWorker
 import by.d1makrat.microblogging_app.workers.FirebaseRealtimeDatabaseWorker
@@ -14,7 +13,6 @@ class HomePresenter {
     var limit: Int = 1
 
     private var view: HomePresenter.View? = null
-    private var items: MutableList<Post?> = ArrayList()
 
     fun detachView() {
         view = null
@@ -41,30 +39,22 @@ class HomePresenter {
         firebaseRealtimeDatabaseWorker.getPostById(id, PostEventListener())
     }
 
-    fun getItemCount(): Int {
-        return items.count()
-    }
-
-    fun onBindViewAtPosition(listRowView: ListRowView, position: Int){
-        val post = items[position]
-
+    fun onBindViewAtPosition(listRowView: ListRowView, post: Post?){
         listRowView.setBody(post!!.body)
         listRowView.setDate(post.unixtime)
         listRowView.setNameAndSurname(post.userName, post.userSurname)
     }
 
-
     inner class UserEventListener: ValueEventListener{
         override fun onCancelled(databaseError: DatabaseError) {
             view?.showError(databaseError.message)
-            view?.showEmptyList()
         }
 
         override fun onDataChange(dataSnapshot: DataSnapshot) {
             val postNumbersList = dataSnapshot.children.asSequence().toList().reversed().filterIndexed{index, _ -> index >= offset && index < offset + limit}
 
             if (postNumbersList.isEmpty()){
-                view?.showEmptyList()
+                view?.allIsLoaded()
             }
             else {
                 postNumbersList.forEach{it -> getPostById(it.key!!)}
@@ -84,19 +74,8 @@ class HomePresenter {
             val name = dataSnapshot.child("name").value.toString()
             val surname = dataSnapshot.child("surname").value.toString()
 
-            view?.removeAllHeadersAndFooters()
-            addItem(Post(body, unixtime, userId, name, surname))
-            view?.loadedSuccessfully()
+            view?.loadedSuccessfully(Post(body, unixtime, userId, name, surname))
         }
-    }
-
-    fun addItem(post: Post?){
-        items.add(post)
-        Log.e(this.toString(), items.lastIndex.toString() + " " + items.last().toString())
-    }
-
-    fun removeItem(position: Int){
-        items.removeAt(position)
     }
 
     interface ListRowView {
@@ -106,11 +85,8 @@ class HomePresenter {
     }
 
     interface View {
-        fun addHeaderInList()
-        fun addFooterInList()
-        fun loadedSuccessfully()
-        fun removeAllHeadersAndFooters()
-        fun showEmptyList()
+        fun loadedSuccessfully(post: Post)
+        fun allIsLoaded()
         fun showError(message: String?)
     }
 }

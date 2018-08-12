@@ -10,14 +10,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import by.d1makrat.microblogging_app.R
 import by.d1makrat.microblogging_app.adapter.PostsAdapter
+import by.d1makrat.microblogging_app.model.Post
 import by.d1makrat.microblogging_app.presenter.fragment.HomePresenter
 import kotlinx.android.synthetic.main.list.view.*
 
 class HomeFragment: Fragment(), HomePresenter.View {
 
     private var offset = 0
-    private val LIMIT = 3
-
+    private val LIMIT = 5
 
     private val homePresenter =  HomePresenter()
     val adapter = PostsAdapter(homePresenter)
@@ -33,11 +33,11 @@ class HomeFragment: Fragment(), HomePresenter.View {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                if (!adapter.isLoading()) {
-                    val visibleItemCount = recyclerView!!.layoutManager.childCount
-                    val totalItemCount = recyclerView.layoutManager.itemCount
-                    val firstVisibleItemPosition =  (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-                    if (firstVisibleItemPosition + visibleItemCount >= totalItemCount && totalItemCount > 0) {
+                val visibleItemCount = recyclerView!!.layoutManager.childCount
+                val totalItemCount = recyclerView.layoutManager.itemCount
+                val firstVisibleItemPosition =  (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                if (firstVisibleItemPosition + visibleItemCount >= totalItemCount) {
+                    if (!adapter.isLoading() && !adapter.allIsLoaded) {
                         offset += LIMIT
                         loadItems(offset, LIMIT)
                     }
@@ -58,37 +58,38 @@ class HomeFragment: Fragment(), HomePresenter.View {
 
     private fun loadItems(offset: Int, limit: Int){
         if (offset == 0){
-            addHeaderInList()
+            adapter.addHeader()
         }
         else{
-            addFooterInList()
+            adapter.addFooter()
         }
         homePresenter.getPostsByUser(offset, limit)
     }
 
-    override fun addHeaderInList() {
-        adapter.addHeader()
-    }
-
-    override fun addFooterInList() {
-        adapter.addFooter()
-    }
-
-    override fun showEmptyList() {
-        adapter.removeAllHeadersAndFooters()
-        adapter.addEmptyHeader()
-    }
-
     override fun showError(message: String?) {
+        adapter.removeAllHeadersAndFooters()
+
+        if (adapter.isEmpty()) {
+            adapter.addEmptyHeader()
+        }
 
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
 
-    override fun loadedSuccessfully() {
-        adapter.notifyDataSetChanged()
+    override fun allIsLoaded(){
+        adapter.removeAllHeadersAndFooters()
+
+        if (adapter.isEmpty()) {
+            adapter.addEmptyHeader()
+        }
+
+        adapter.allIsLoaded = true
+
+        Toast.makeText(activity, R.string.nothing_to_load, Toast.LENGTH_LONG).show()
     }
 
-    override fun removeAllHeadersAndFooters(){
+    override fun loadedSuccessfully(post: Post) {
         adapter.removeAllHeadersAndFooters()
+        adapter.addItem(post)
     }
 }

@@ -1,7 +1,6 @@
 package by.d1makrat.microblogging_app.adapter
 
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import by.d1makrat.microblogging_app.R
@@ -15,12 +14,15 @@ class PostsAdapter(val presenter: HomePresenter): RecyclerView.Adapter<RecyclerV
     private val FOOTER = 2
     private val EMPTY_HEADER = 3
 
+    var allIsLoaded = false
+
     private var isFooterAdded = false
     private var isHeaderAdded = false
     private var isEmptyHeaderAdded = false
 
+    private var items: MutableList<Post?> = ArrayList()
+
     override fun getItemViewType(position: Int): Int {
-        Log.e(this.toString(), position.toString() + " " + isFooterAdded.toString())
         if (position == 0 && isHeaderAdded){
             return HEADER
         }
@@ -34,12 +36,10 @@ class PostsAdapter(val presenter: HomePresenter): RecyclerView.Adapter<RecyclerV
     }
 
     override fun getItemCount(): Int {
-        return presenter.getItemCount()
+        return items.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        Log.e(this.toString(), "onCreateViewHolder for " + viewType.toString())
-
         return when(viewType){
             HEADER -> HeaderViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_header, parent, false))
             FOOTER -> FooterViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_footer, parent, false))
@@ -49,14 +49,12 @@ class PostsAdapter(val presenter: HomePresenter): RecyclerView.Adapter<RecyclerV
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        Log.d(this.toString(), "bindviewholder " + position.toString())
-
         when(getItemViewType(position)){
             HEADER ->{
 
             }
             ITEM ->{
-                presenter.onBindViewAtPosition(holder as PostViewHolder, position)
+                presenter.onBindViewAtPosition(holder as PostViewHolder, items[position])
             }
             FOOTER ->{
 
@@ -67,30 +65,28 @@ class PostsAdapter(val presenter: HomePresenter): RecyclerView.Adapter<RecyclerV
         }
     }
 
-    fun addItem(post: Post){
-        presenter.addItem(post)
+    fun addItem(post: Post?){
+        items.add(post)
         notifyItemInserted(itemCount-1)
+    }
+
+    fun removeItem(position: Int){
+        items.removeAt(position)
     }
 
     fun addHeader(){
-        Log.e(this.toString(), "header is added")
         isHeaderAdded = true
-        presenter.addItem(null)
-        notifyItemInserted(0)
+        addItem(null)
     }
 
     fun addFooter(){
-        Log.e(this.toString(), "footer is added")
         isFooterAdded = true
-        presenter.addItem(null)
-        notifyItemInserted(itemCount-1)
-//        notifyDataSetChanged()
+        addItem(null)
     }
 
     fun addEmptyHeader(){
         isEmptyHeaderAdded = true
-        presenter.addItem(null)
-        notifyItemInserted(itemCount-1)
+        addItem(null)
     }
 
     fun removeAllHeadersAndFooters(){
@@ -102,28 +98,25 @@ class PostsAdapter(val presenter: HomePresenter): RecyclerView.Adapter<RecyclerV
     private fun removeHeader(){
         if (isHeaderAdded){
             val position = 0
-            presenter.removeItem(position)
+            removeItem(position)
             notifyItemRemoved(position)
             isHeaderAdded = false
-            Log.e(this.toString(), "header is removed")
         }
     }
 
     private fun removeFooter(){
         if (isFooterAdded){
             val position = itemCount - 1
-            presenter.removeItem(position)
+            removeItem(position)
             notifyItemRemoved(position)
             isFooterAdded = false
-            Log.e(this.toString(), "footer is removed")
-            Log.e(this.toString(), presenter.getItemCount().toString())
         }
     }
 
     private fun removeEmptyHeader(){
         if (isEmptyHeaderAdded){
             val position = 0
-            presenter.removeItem(position)
+            removeItem(position)
             notifyItemRemoved(position)
             isEmptyHeaderAdded = false
         }
@@ -131,5 +124,9 @@ class PostsAdapter(val presenter: HomePresenter): RecyclerView.Adapter<RecyclerV
 
     fun isLoading(): Boolean{
         return isHeaderAdded || isFooterAdded
+    }
+
+    fun isEmpty(): Boolean {
+        return getItemViewType(0) != ITEM || items.size == 0
     }
 }
