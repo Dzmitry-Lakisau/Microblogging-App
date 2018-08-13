@@ -11,8 +11,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import by.d1makrat.microblogging_app.R
 import by.d1makrat.microblogging_app.R.id.*
-import by.d1makrat.microblogging_app.R.string.navigation_drawer_close
-import by.d1makrat.microblogging_app.R.string.navigation_drawer_open
+import by.d1makrat.microblogging_app.R.string.*
 import by.d1makrat.microblogging_app.presenter.activity.MainPresenter
 import by.d1makrat.microblogging_app.ui.fragment.AddFragment
 import by.d1makrat.microblogging_app.ui.fragment.AllPostsFragment
@@ -23,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 
-class MainActivity : Activity(), NavigationView.OnNavigationItemSelectedListener, MainPresenter.View {
+class MainActivity: Activity(), NavigationView.OnNavigationItemSelectedListener, MainPresenter.View {
 
     private val manager: FragmentManager = fragmentManager
     private val mainPresenter = MainPresenter()
@@ -54,7 +53,8 @@ class MainActivity : Activity(), NavigationView.OnNavigationItemSelectedListener
 
         navigationView.setNavigationItemSelectedListener(this)
 
-        manager.beginTransaction().add(R.id.content_main, HomeFragment()).commit()
+        manager.beginTransaction().replace(R.id.content_main, HomeFragment()).commit()
+        toolbar?.title = getString(nav_home)
     }
 
     override fun onStart() {
@@ -73,15 +73,19 @@ class MainActivity : Activity(), NavigationView.OnNavigationItemSelectedListener
         when (item.itemId){
             all_posts -> {
                 manager.beginTransaction().replace(R.id.content_main, AllPostsFragment()).commit()
+                toolbar?.title = getString(nav_all_posts)
             }
             home ->{
                 manager.beginTransaction().replace(R.id.content_main, HomeFragment()).commit()
+                toolbar.title = getString(nav_home)
             }
             add ->{
-               manager.beginTransaction().replace(R.id.content_main, AddFragment()).commit()
+                manager.beginTransaction().replace(R.id.content_main, AddFragment()).commit()
+                toolbar?.title = getString(nav_add)
             }
             profile ->{
                 manager.beginTransaction().replace(R.id.content_main, ProfileFragment()).commit()
+                toolbar?.title = getString(nav_profile)
             }
             logout ->{
                 FirebaseAuthenticationWorker().signOut()
