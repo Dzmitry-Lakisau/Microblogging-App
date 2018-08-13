@@ -7,20 +7,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
-class HomePresenter {
-
-    var offset: Int = 0
-    var limit: Int = 1
-
-    private var view: HomePresenter.View? = null
-
-    fun detachView() {
-        view = null
-    }
-
-    fun attachView(view: HomePresenter.View) {
-        this.view = view
-    }
+class HomePresenter: PostsPresenter() {
 
     fun getPostsByUser(offset: Int, limit: Int){
 
@@ -37,12 +24,6 @@ class HomePresenter {
 
         val firebaseRealtimeDatabaseWorker = FirebaseRealtimeDatabaseWorker()
         firebaseRealtimeDatabaseWorker.getPostById(id, PostEventListener())
-    }
-
-    fun onBindViewAtPosition(listRowView: ListRowView, post: Post?){
-        listRowView.setBody(post!!.body)
-        listRowView.setDate(post.unixtime)
-        listRowView.setNameAndSurname(post.userName, post.userSurname)
     }
 
     inner class UserEventListener: ValueEventListener{
@@ -76,17 +57,5 @@ class HomePresenter {
 
             view?.loadedSuccessfully(Post(body, unixtime, userId, name, surname))
         }
-    }
-
-    interface ListRowView {
-        fun setBody(body: String)
-        fun setDate(unixtime: Long)
-        fun setNameAndSurname(name: String, surname: String)
-    }
-
-    interface View {
-        fun loadedSuccessfully(post: Post)
-        fun allIsLoaded()
-        fun showError(message: String?)
     }
 }

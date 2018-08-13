@@ -97,4 +97,8 @@ class FirebaseRealtimeDatabaseWorker {
     fun getPostById(id: String, listener: ValueEventListener){
         mDatabase.getReference("posts").child(id).addListenerForSingleValueEvent(listener)
     }
+
+    fun getPosts(listener: ValueEventListener){
+        mDatabase.getReference("posts").orderByKey().addListenerForSingleValueEvent(listener)
+    }
 }

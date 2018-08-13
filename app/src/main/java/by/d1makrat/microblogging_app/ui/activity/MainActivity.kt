@@ -5,25 +5,21 @@ import android.app.FragmentManager
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.support.v4.app.FragmentActivity
+import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import android.widget.Toast
 import by.d1makrat.microblogging_app.R
+import by.d1makrat.microblogging_app.R.id.*
 import by.d1makrat.microblogging_app.R.string.navigation_drawer_close
 import by.d1makrat.microblogging_app.R.string.navigation_drawer_open
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.AppCompatActivity
-import by.d1makrat.microblogging_app.R.id.*
 import by.d1makrat.microblogging_app.ui.fragment.AddFragment
+import by.d1makrat.microblogging_app.ui.fragment.AllPostsFragment
 import by.d1makrat.microblogging_app.ui.fragment.HomeFragment
 import by.d1makrat.microblogging_app.ui.fragment.ProfileFragment
 import by.d1makrat.microblogging_app.workers.FirebaseAuthenticationWorker
-import com.google.firebase.auth.AdditionalUserInfo
-import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : Activity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -59,6 +55,9 @@ class MainActivity : Activity(), NavigationView.OnNavigationItemSelectedListener
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId){
+            all_posts -> {
+                manager.beginTransaction().replace(R.id.content_main, AllPostsFragment()).commit()
+            }
             home ->{
                 manager.beginTransaction().replace(R.id.content_main, HomeFragment()).commit()
             }
@@ -79,7 +78,7 @@ class MainActivity : Activity(), NavigationView.OnNavigationItemSelectedListener
         return true
     }
 
-    fun startSignInScreen(){
+    private fun startSignInScreen(){
         startActivity(Intent(this, SignInActivity::class.java))
     }
 }
