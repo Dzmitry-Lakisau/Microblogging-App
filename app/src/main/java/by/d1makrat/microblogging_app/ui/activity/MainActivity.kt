@@ -13,6 +13,7 @@ import by.d1makrat.microblogging_app.R
 import by.d1makrat.microblogging_app.R.id.*
 import by.d1makrat.microblogging_app.R.string.navigation_drawer_close
 import by.d1makrat.microblogging_app.R.string.navigation_drawer_open
+import by.d1makrat.microblogging_app.presenter.activity.MainPresenter
 import by.d1makrat.microblogging_app.ui.fragment.AddFragment
 import by.d1makrat.microblogging_app.ui.fragment.AllPostsFragment
 import by.d1makrat.microblogging_app.ui.fragment.HomeFragment
@@ -20,10 +21,12 @@ import by.d1makrat.microblogging_app.ui.fragment.ProfileFragment
 import by.d1makrat.microblogging_app.workers.FirebaseAuthenticationWorker
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 
-class MainActivity : Activity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : Activity(), NavigationView.OnNavigationItemSelectedListener, MainPresenter.View {
 
     private val manager: FragmentManager = fragmentManager
+    private val mainPresenter = MainPresenter()
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
@@ -38,6 +41,8 @@ class MainActivity : Activity(), NavigationView.OnNavigationItemSelectedListener
 
         setContentView(R.layout.activity_main)
 
+        mainPresenter.attachView(this)
+
         floatingActionButton.setOnClickListener{
             Toast.makeText(this, "dgsadvsvs", Toast.LENGTH_LONG).show()
         }
@@ -50,6 +55,17 @@ class MainActivity : Activity(), NavigationView.OnNavigationItemSelectedListener
         navigationView.setNavigationItemSelectedListener(this)
 
         manager.beginTransaction().add(R.id.content_main, HomeFragment()).commit()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        mainPresenter.getUserInfo()
+    }
+
+    override fun onDestroy() {
+        mainPresenter.detachView()
+        super.onDestroy()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -80,5 +96,10 @@ class MainActivity : Activity(), NavigationView.OnNavigationItemSelectedListener
 
     private fun startSignInScreen(){
         startActivity(Intent(this, SignInActivity::class.java))
+    }
+
+    override fun showUserInfoInHeader(userName: String, userSurname: String, userMail: String) {
+        textView_header_title.text = "$userName $userSurname"
+        textView_header_subtitle.text = userMail
     }
 }
