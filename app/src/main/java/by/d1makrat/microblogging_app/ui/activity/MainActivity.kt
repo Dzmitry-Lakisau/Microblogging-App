@@ -8,7 +8,7 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
-import android.widget.Toast
+import android.view.View
 import by.d1makrat.microblogging_app.R
 import by.d1makrat.microblogging_app.R.id.*
 import by.d1makrat.microblogging_app.R.string.*
@@ -43,7 +43,9 @@ class MainActivity: Activity(), NavigationView.OnNavigationItemSelectedListener,
         mainPresenter.attachView(this)
 
         floatingActionButton.setOnClickListener{
-            Toast.makeText(this, "dgsadvsvs", Toast.LENGTH_LONG).show()
+            manager.beginTransaction().replace(R.id.content_main, AddFragment()).commit()
+            toolbar.title = getString(nav_add)
+            floatingActionButton.visibility = View.GONE
         }
 
         val toggle = ActionBarDrawerToggle(
@@ -70,6 +72,8 @@ class MainActivity: Activity(), NavigationView.OnNavigationItemSelectedListener,
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
+        floatingActionButton.visibility = View.VISIBLE
+
         when (item.itemId){
             all_posts -> {
                 manager.beginTransaction().replace(R.id.content_main, AllPostsFragment()).commit()
@@ -82,6 +86,7 @@ class MainActivity: Activity(), NavigationView.OnNavigationItemSelectedListener,
             add ->{
                 manager.beginTransaction().replace(R.id.content_main, AddFragment()).commit()
                 toolbar?.title = getString(nav_add)
+                floatingActionButton.visibility = View.GONE
             }
             profile ->{
                 manager.beginTransaction().replace(R.id.content_main, ProfileFragment()).commit()
