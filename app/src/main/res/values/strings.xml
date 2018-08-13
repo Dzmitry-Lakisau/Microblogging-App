@@ -18,6 +18,7 @@
 
     <string name="add_post">Add post</string>
 
+    <string name="nav_all_posts">All posts</string>
     <string name="nav_home">Home</string>
     <string name="nav_add">Add</string>
     <string name="nav_profile">Profile</string>

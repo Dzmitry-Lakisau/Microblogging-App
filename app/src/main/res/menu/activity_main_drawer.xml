@@ -5,6 +5,15 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/all_posts"
+            android:icon="@drawable/ic_list_24dp"
+            android:title="@string/nav_all_posts"/>
+    </group>
+
+    <group
+        android:id="@+id/main"
+        android:checkableBehavior="single">
+        <item
             android:id="@+id/home"
             android:icon="@drawable/ic_home_black_24dp"
             android:title="@string/nav_home"/>

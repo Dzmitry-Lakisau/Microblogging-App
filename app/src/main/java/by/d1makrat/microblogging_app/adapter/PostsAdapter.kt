@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import by.d1makrat.microblogging_app.R
 import by.d1makrat.microblogging_app.model.Post
-import by.d1makrat.microblogging_app.presenter.fragment.HomePresenter
+import by.d1makrat.microblogging_app.presenter.fragment.PostsPresenter
 
-class PostsAdapter(val presenter: HomePresenter): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class PostsAdapter(val presenter: PostsPresenter): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     private val HEADER = 0
     private val ITEM = 1
