@@ -29,6 +29,7 @@ class SignInActivity: Activity(), SignInPresenter.View {
         }
 
         button_sign_in.setOnClickListener{
+            button_sign_in.isEnabled = false
             signInPresenter.signInUser(editText_mail.text.toString(), editText_password.text.toString())
         }
     }
@@ -39,6 +40,7 @@ class SignInActivity: Activity(), SignInPresenter.View {
     }
 
     override fun showError(message: String?) {
+        button_sign_in.isEnabled = true
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
