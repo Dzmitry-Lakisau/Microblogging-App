@@ -8,6 +8,7 @@
     <string name="password_hint">Password</string>
     <string name="name_hint">Name</string>
     <string name="surname_hint">Surname</string>
+    <string name="gender_hint">Gender</string>
     <string name="age_hint">Age</string>
     <string name="message_hint">Message</string>
 

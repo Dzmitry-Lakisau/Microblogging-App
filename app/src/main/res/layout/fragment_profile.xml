@@ -12,9 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textSize="24sp"
         android:layout_marginTop="48dp"
-        android:text="@string/this_is_your_profile"/>
+        android:text="@string/this_is_your_profile"
+        android:textSize="30sp"/>
 
     <TextView
         android:id="@+id/textView_mail"
@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/textView_your_profile"
+        android:layout_alignEnd="@id/textView_your_profile"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         tools:text="Mail"/>
 
@@ -29,8 +30,8 @@
         android:id="@+id/textView_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView_mail"
         android:layout_below="@id/textView_mail"
+        android:layout_alignEnd="@id/textView_mail"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         tools:text="Name"/>
 
@@ -39,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView_name"
-        android:layout_alignStart="@+id/textView_mail"
+        android:layout_alignEnd="@+id/textView_mail"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         tools:text="Surname"/>
 
@@ -47,7 +48,7 @@
         android:id="@+id/textView_gender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView_mail"
+        android:layout_alignEnd="@+id/textView_mail"
         android:layout_below="@id/textView_surname"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         tools:text="Gender"/>
@@ -57,8 +58,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView_gender"
-        android:layout_alignStart="@+id/textView_mail"
+        android:layout_alignEnd="@+id/textView_mail"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         tools:text="Age"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView_your_profile"
+        android:layout_alignTop="@+id/textView_mail"
+        android:text="@string/mail_hint"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView_your_profile"
+        android:layout_alignTop="@+id/textView_name"
+        android:text="@string/name_hint"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView_your_profile"
+        android:layout_alignTop="@+id/textView_surname"
+        android:text="@string/surname_hint"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView_your_profile"
+        android:layout_alignTop="@+id/textView_gender"
+        android:text="@string/gender_hint"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView_your_profile"
+        android:layout_alignTop="@id/textView_age"
+        android:text="@string/age_hint"/>
 
 </RelativeLayout>
