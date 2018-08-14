@@ -1,5 +1,6 @@
 package by.d1makrat.microblogging_app.workers
 
+import by.d1makrat.microblogging_app.*
 import by.d1makrat.microblogging_app.model.User
 import com.google.firebase.database.*
 import io.reactivex.Completable
@@ -12,12 +13,12 @@ class FirebaseRealtimeDatabaseWorker {
 
     fun createNewUser(uid: String, user: User): Completable {
         try {
-            val userReference: DatabaseReference = mDatabase.getReference("users").child(uid)
-            userReference.child("mail").setValue(user.mail)
-            userReference.child("name").setValue(user.name)
-            userReference.child("surname").setValue(user.surname)
-            userReference.child("gender").setValue(user.gender)
-            userReference.child("age").setValue(user.age)
+            val userReference: DatabaseReference = mDatabase.getReference(USERS_KEY).child(uid)
+            userReference.child(MAIL_KEY).setValue(user.mail)
+            userReference.child(NAME_KEY).setValue(user.name)
+            userReference.child(SURNAME_KEY).setValue(user.surname)
+            userReference.child(GENDER_KEY).setValue(user.gender)
+            userReference.child(AGE_KEY).setValue(user.age)
         }
         catch (e: IOException){
             return Completable.error(e)
@@ -28,18 +29,18 @@ class FirebaseRealtimeDatabaseWorker {
     fun getCurrentUserInfo(uid: String): Single<User> {
         return Single.create<User> { singleEmitter ->
                 try {
-                    val userReference: DatabaseReference = mDatabase.getReference("users").child(uid)
+                    val userReference: DatabaseReference = mDatabase.getReference(USERS_KEY).child(uid)
                     userReference.addListenerForSingleValueEvent(object: ValueEventListener {
                         override fun onCancelled(databaseError: DatabaseError) {
                             throw Exception(databaseError.message)
                         }
 
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            val mail = dataSnapshot.child("mail").value.toString()
-                            val name = dataSnapshot.child("name").value.toString()
-                            val surname = dataSnapshot.child("surname").value.toString()
-                            val gender = dataSnapshot.child("gender").value.toString()
-                            val age = dataSnapshot.child("age").value.toString().toInt()
+                            val mail = dataSnapshot.child(MAIL_KEY).value.toString()
+                            val name = dataSnapshot.child(NAME_KEY).value.toString()
+                            val surname = dataSnapshot.child(SURNAME_KEY).value.toString()
+                            val gender = dataSnapshot.child(GENDER_KEY).value.toString()
+                            val age = dataSnapshot.child(AGE_KEY).value.toString().toInt()
 
                             singleEmitter.onSuccess(User(uid, mail, name, surname, gender, age))
                         }
@@ -55,7 +56,7 @@ class FirebaseRealtimeDatabaseWorker {
         try {
             var postNumber: Long
 
-            val query = mDatabase.getReference("posts")
+            val query = mDatabase.getReference(POSTS_KEY)
             query.addListenerForSingleValueEvent(object: ValueEventListener {
                 override fun onCancelled(databaseError: DatabaseError) {
                     throw Exception(databaseError.message)
@@ -65,14 +66,14 @@ class FirebaseRealtimeDatabaseWorker {
                     postNumber = dataSnapshot.childrenCount.inc()
 
                     var postReference: DatabaseReference = query.child(postNumber.toString())
-                    postReference.child("body").setValue(body)
-                    postReference.child("unixtime").setValue(currentTime)
-                    postReference.child("user").setValue(user.uid)
-                    postReference.child("name").setValue(user.name)
-                    postReference.child("surname").setValue(user.surname)
+                    postReference.child(BODY_KEY).setValue(body)
+                    postReference.child(UNIX_TIME_KEY).setValue(currentTime)
+                    postReference.child(USERS_KEY).setValue(user.uid)
+                    postReference.child(NAME_KEY).setValue(user.name)
+                    postReference.child(SURNAME_KEY).setValue(user.surname)
 
-                    postReference = mDatabase.getReference("users").child(user.uid)
-                    postReference.child("posts").child(postNumber.toString()).setValue(true)
+                    postReference = mDatabase.getReference(USERS_KEY).child(user.uid)
+                    postReference.child(POSTS_KEY).child(postNumber.toString()).setValue(true)
                 }
             })
         }
@@ -83,14 +84,14 @@ class FirebaseRealtimeDatabaseWorker {
     }
 
     fun getPostsByUser(uid: String, listener: ValueEventListener){
-        mDatabase.getReference("users").child(uid).child("posts").orderByKey().addListenerForSingleValueEvent(listener)
+        mDatabase.getReference(USERS_KEY).child(uid).child(POSTS_KEY).orderByKey().addListenerForSingleValueEvent(listener)
     }
 
     fun getPostById(id: String, listener: ValueEventListener){
-        mDatabase.getReference("posts").child(id).addListenerForSingleValueEvent(listener)
+        mDatabase.getReference(POSTS_KEY).child(id).addListenerForSingleValueEvent(listener)
     }
 
     fun getPosts(listener: ValueEventListener){
-        mDatabase.getReference("posts").orderByKey().addListenerForSingleValueEvent(listener)
+        mDatabase.getReference(POSTS_KEY).orderByKey().addListenerForSingleValueEvent(listener)
     }
 }

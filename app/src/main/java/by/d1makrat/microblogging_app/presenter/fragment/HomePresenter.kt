@@ -1,5 +1,6 @@
 package by.d1makrat.microblogging_app.presenter.fragment
 
+import by.d1makrat.microblogging_app.*
 import by.d1makrat.microblogging_app.model.Post
 import by.d1makrat.microblogging_app.workers.FirebaseAuthenticationWorker
 import by.d1makrat.microblogging_app.workers.FirebaseRealtimeDatabaseWorker
@@ -49,11 +50,11 @@ class HomePresenter: PostsPresenter() {
         }
 
         override fun onDataChange(dataSnapshot: DataSnapshot) {
-            val body = dataSnapshot.child("body").value.toString()
-            val unixTime = dataSnapshot.child("unixtime").value.toString().toLong()
-            val userId = dataSnapshot.child("user").value.toString()
-            val name = dataSnapshot.child("name").value.toString()
-            val surname = dataSnapshot.child("surname").value.toString()
+            val body = dataSnapshot.child(BODY_KEY).value.toString()
+            val unixTime = dataSnapshot.child(UNIX_TIME_KEY).value.toString().toLong()
+            val userId = dataSnapshot.child(USER_KEY).value.toString()
+            val name = dataSnapshot.child(NAME_KEY).value.toString()
+            val surname = dataSnapshot.child(SURNAME_KEY).value.toString()
 
             view?.loadedSuccessfully(Post(body, unixTime, userId, name, surname))
         }

@@ -2,6 +2,7 @@ package by.d1makrat.microblogging_app.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import by.d1makrat.microblogging_app.FORMATTING_DATE_PATTERN
 import by.d1makrat.microblogging_app.presenter.fragment.PostsPresenter
 import kotlinx.android.synthetic.main.item_post.view.*
 import java.text.SimpleDateFormat
@@ -20,7 +21,7 @@ class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), PostsP
 
     override fun setDate(unixTime: Long) {
         val date = java.util.Date(TimeUnit.SECONDS.toMillis(unixTime))
-        val simpleDateFormat = SimpleDateFormat("d MMM yyyy, HH:mm:ss, EEEE", Locale.ENGLISH)
+        val simpleDateFormat = SimpleDateFormat(FORMATTING_DATE_PATTERN, Locale.ENGLISH)
         dateView.text = simpleDateFormat.format(date)
     }
 
