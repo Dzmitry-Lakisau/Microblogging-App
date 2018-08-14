@@ -56,11 +56,12 @@
 
     <Spinner
         android:id="@+id/spinner_gender"
-        android:layout_width="wrap_content"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editText_age"
-        android:layout_alignStart="@id/editText_surname"
         android:layout_alignEnd="@id/editText_surname"
+        android:layout_alignStart="@id/editText_surname"
+        android:layout_below="@id/editText_age"
+        android:layout_marginEnd="-17dp"
         android:layout_marginTop="10dp"/>
 
     <Button

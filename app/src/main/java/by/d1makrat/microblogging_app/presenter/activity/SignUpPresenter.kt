@@ -5,6 +5,7 @@ import by.d1makrat.microblogging_app.workers.FirebaseAuthenticationWorker
 import by.d1makrat.microblogging_app.workers.FirebaseRealtimeDatabaseWorker
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.io.IOException
 
 class SignUpPresenter {
 
@@ -42,6 +43,9 @@ class SignUpPresenter {
                         )
             }
             catch (e: NumberFormatException){
+                view?.showWrongNumberMessage()
+            }
+            catch (e: IOException){
                 view?.showError(e.message)
             }
         }

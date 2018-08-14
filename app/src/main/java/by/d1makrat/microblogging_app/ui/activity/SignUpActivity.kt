@@ -26,6 +26,7 @@ class SignUpActivity: Activity(), SignUpPresenter.View {
         spinner_gender.adapter = ArrayAdapter<Gender>(this, android.R.layout.simple_spinner_item, Gender.values())
 
         button_sign_up.setOnClickListener {
+            button_sign_up.isEnabled = false
             signUpPresenter.signUpNewUser(editText_mail.text.toString(), editText_password.text.toString(), editText_name.text.toString(),
                     editText_surname.text.toString(), spinner_gender.selectedItem.toString(), editText_age.text.toString())
         }
@@ -43,10 +44,12 @@ class SignUpActivity: Activity(), SignUpPresenter.View {
     }
 
     override fun showError(message: String?) {
+        button_sign_up.isEnabled = true
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     override fun showNotFilledFieldsMessage() {
+        button_sign_up.isEnabled = true
         Toast.makeText(this, getString(R.string.not_all_fields_are_filled), Toast.LENGTH_LONG).show()
     }
 
@@ -57,6 +60,7 @@ class SignUpActivity: Activity(), SignUpPresenter.View {
     }
 
     override fun showWrongNumberMessage() {
+        button_sign_up.isEnabled = true
         Toast.makeText(this, getString(R.string.wrong_number_input), Toast.LENGTH_LONG).show()
     }
 }
