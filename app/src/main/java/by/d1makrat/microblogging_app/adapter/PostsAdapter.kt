@@ -23,16 +23,16 @@ class PostsAdapter(val presenter: PostsPresenter): RecyclerView.Adapter<Recycler
     private var items: MutableList<Post?> = ArrayList()
 
     override fun getItemViewType(position: Int): Int {
-        if (position == 0 && isHeaderAdded){
-            return HEADER
+        return if (position == 0 && isHeaderAdded){
+            HEADER
         }
         else if (position == itemCount-1 && isFooterAdded){
-            return FOOTER
+            FOOTER
         }
         else if (position == 0 && isEmptyHeaderAdded){
-            return EMPTY_HEADER
+            EMPTY_HEADER
         }
-        else return ITEM
+        else ITEM
     }
 
     override fun getItemCount(): Int {
@@ -70,7 +70,7 @@ class PostsAdapter(val presenter: PostsPresenter): RecyclerView.Adapter<Recycler
         notifyItemInserted(itemCount-1)
     }
 
-    fun removeItem(position: Int){
+    private fun removeItem(position: Int){
         items.removeAt(position)
     }
 

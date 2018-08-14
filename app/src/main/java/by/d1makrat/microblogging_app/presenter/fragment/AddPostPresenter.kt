@@ -1,6 +1,5 @@
 package by.d1makrat.microblogging_app.presenter.fragment
 
-import android.util.Log
 import by.d1makrat.microblogging_app.workers.FirebaseAuthenticationWorker
 import by.d1makrat.microblogging_app.workers.FirebaseRealtimeDatabaseWorker
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -26,8 +25,6 @@ class AddPresenter {
         else {
             val firebaseRealtimeDatabaseWorker = FirebaseRealtimeDatabaseWorker()
 
-            Log.d(this.toString(), Thread.currentThread().name)
-
             val uid = FirebaseAuthenticationWorker().getCurrentUserUid()
 
             firebaseRealtimeDatabaseWorker.getCurrentUserInfo(uid!!)
@@ -38,25 +35,12 @@ class AddPresenter {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             {
-                                Log.d(this.toString(), Thread.currentThread().name)
                                 view?.successfullyAdded()
                             },
                             {
                                 error -> view?.showError(error.message)
                             }
                     )
-//            firebaseRealtimeDatabaseWorker.addPost(uid!!, body, System.currentTimeMillis()/1000)
-//                    .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(
-//                            {
-//                                Log.d(this.toString(), Thread.currentThread().name)
-//                                view?.successfullyAdded()
-//                            },
-//                            {
-//                                error -> view?.showError(error.message)
-//                            }
-//                    )
         }
     }
 

@@ -47,7 +47,7 @@ class SignUpActivity: Activity(), SignUpPresenter.View {
     }
 
     override fun showNotFilledFieldsMessage() {
-        Toast.makeText(this, getString(R.string.not_all_fieds_are_filled), Toast.LENGTH_LONG).show()
+        Toast.makeText(this, getString(R.string.not_all_fields_are_filled), Toast.LENGTH_LONG).show()
     }
 
     override fun registeredSuccessfully() {

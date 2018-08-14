@@ -50,12 +50,12 @@ class HomePresenter: PostsPresenter() {
 
         override fun onDataChange(dataSnapshot: DataSnapshot) {
             val body = dataSnapshot.child("body").value.toString()
-            val unixtime = dataSnapshot.child("unixtime").value.toString().toLong()
+            val unixTime = dataSnapshot.child("unixtime").value.toString().toLong()
             val userId = dataSnapshot.child("user").value.toString()
             val name = dataSnapshot.child("name").value.toString()
             val surname = dataSnapshot.child("surname").value.toString()
 
-            view?.loadedSuccessfully(Post(body, unixtime, userId, name, surname))
+            view?.loadedSuccessfully(Post(body, unixTime, userId, name, surname))
         }
     }
 }

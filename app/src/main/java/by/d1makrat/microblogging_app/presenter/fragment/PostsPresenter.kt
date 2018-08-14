@@ -18,13 +18,13 @@ open class PostsPresenter {
 
     fun onBindViewAtPosition(listRowView: ListRowView, post: Post?){
         listRowView.setBody(post!!.body)
-        listRowView.setDate(post.unixtime)
+        listRowView.setDate(post.unixTime)
         listRowView.setNameAndSurname(post.userName, post.userSurname)
     }
 
     interface ListRowView {
         fun setBody(body: String)
-        fun setDate(unixtime: Long)
+        fun setDate(unixTime: Long)
         fun setNameAndSurname(name: String, surname: String)
     }
 

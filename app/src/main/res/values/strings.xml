@@ -3,13 +3,14 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
 
     <string name="mail_hint">Mail</string>
     <string name="password_hint">Password</string>
     <string name="name_hint">Name</string>
     <string name="surname_hint">Surname</string>
     <string name="age_hint">Age</string>
+    <string name="message_hint">Message</string>
+
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>
     <string name="register_now">Register now</string>
@@ -25,7 +26,7 @@
     <string name="this_is_your_profile">This is your profile!</string>
 
     <string name="registered_successfully">Registered successfully</string>
-    <string name="not_all_fieds_are_filled">Not all required fields are filled</string>
+    <string name="not_all_fields_are_filled">Not all required fields are filled</string>
     <string name="wrong_number_input">Wrong number input</string>
 
     <string name="overload_error">You have exceed maximum symbol count per post</string>
@@ -33,4 +34,6 @@
 
     <string name="empty_list">Error occurred or nothing found</string>
     <string name="nothing_to_load">Nothing to load more</string>
+
+    <string name="name_surname">"%1$s %2$s"</string>
 </resources>

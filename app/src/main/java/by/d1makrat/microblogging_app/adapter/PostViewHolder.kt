@@ -10,16 +10,16 @@ import java.util.concurrent.TimeUnit
 
 class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), PostsPresenter.ListRowView {
 
-    val bodyView = itemView.textView_post_body
-    val dateView = itemView.textView_post_date
-    val nameAndSurnameView = itemView.textView_name_and_surname
+    private val bodyView = itemView.textView_post_body
+    private val dateView = itemView.textView_post_date
+    private val nameAndSurnameView = itemView.textView_name_and_surname
 
     override fun setBody(body: String) {
         bodyView.text = body
     }
 
-    override fun setDate(unixtime: Long) {
-        val date = java.util.Date(TimeUnit.SECONDS.toMillis(unixtime))
+    override fun setDate(unixTime: Long) {
+        val date = java.util.Date(TimeUnit.SECONDS.toMillis(unixTime))
         val simpleDateFormat = SimpleDateFormat("d MMM yyyy, HH:mm:ss, EEEE", Locale.ENGLISH)
         dateView.text = simpleDateFormat.format(date)
     }

@@ -15,10 +15,8 @@ class FirebaseAuthenticationWorker {
         return Single.create<String>{singleEmitter ->
             mAuth.createUserWithEmailAndPassword(mail, password).addOnCompleteListener { task: Task<AuthResult> ->
                 if (task.isSuccessful) {
-                    //Registration OK
                    singleEmitter.onSuccess(mAuth.currentUser!!.uid)
                 } else {
-                    //Registration error
                     singleEmitter.onError(task.exception!!)
                 }
             }

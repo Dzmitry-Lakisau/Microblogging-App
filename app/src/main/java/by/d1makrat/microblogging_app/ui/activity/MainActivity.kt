@@ -13,7 +13,7 @@ import by.d1makrat.microblogging_app.R
 import by.d1makrat.microblogging_app.R.id.*
 import by.d1makrat.microblogging_app.R.string.*
 import by.d1makrat.microblogging_app.presenter.activity.MainPresenter
-import by.d1makrat.microblogging_app.ui.fragment.AddFragment
+import by.d1makrat.microblogging_app.ui.fragment.AddPostFragment
 import by.d1makrat.microblogging_app.ui.fragment.AllPostsFragment
 import by.d1makrat.microblogging_app.ui.fragment.HomeFragment
 import by.d1makrat.microblogging_app.ui.fragment.ProfileFragment
@@ -43,7 +43,7 @@ class MainActivity: Activity(), NavigationView.OnNavigationItemSelectedListener,
         mainPresenter.attachView(this)
 
         floatingActionButton.setOnClickListener{
-            manager.beginTransaction().replace(R.id.content_main, AddFragment()).commit()
+            manager.beginTransaction().replace(R.id.content_main, AddPostFragment()).commit()
             toolbar.title = getString(nav_add)
             floatingActionButton.visibility = View.GONE
         }
@@ -84,7 +84,7 @@ class MainActivity: Activity(), NavigationView.OnNavigationItemSelectedListener,
                 toolbar.title = getString(nav_home)
             }
             add ->{
-                manager.beginTransaction().replace(R.id.content_main, AddFragment()).commit()
+                manager.beginTransaction().replace(R.id.content_main, AddPostFragment()).commit()
                 toolbar?.title = getString(nav_add)
                 floatingActionButton.visibility = View.GONE
             }
@@ -108,7 +108,7 @@ class MainActivity: Activity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     override fun showUserInfoInHeader(userName: String, userSurname: String, userMail: String) {
-        textView_header_title.text = "$userName $userSurname"
+        textView_header_title.text = getString(name_surname, userName, userSurname)
         textView_header_subtitle.text = userMail
     }
 }

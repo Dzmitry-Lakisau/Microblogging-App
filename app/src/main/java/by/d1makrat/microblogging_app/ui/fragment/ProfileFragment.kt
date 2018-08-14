@@ -19,9 +19,7 @@ class ProfileFragment: Fragment(), ProfilePresenter.View {
 
         profilePresenter.attachView(this)
 
-        val rootView = inflater!!.inflate(R.layout.fragment_profile, container, false)
-
-        return rootView
+        return inflater!!.inflate(R.layout.fragment_profile, container, false)
     }
 
     override fun onStart() {

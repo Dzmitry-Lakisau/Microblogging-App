@@ -7,7 +7,6 @@ import android.widget.Toast
 import by.d1makrat.microblogging_app.R
 import by.d1makrat.microblogging_app.presenter.activity.SignInPresenter
 import by.d1makrat.microblogging_app.workers.FirebaseAuthenticationWorker
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
 

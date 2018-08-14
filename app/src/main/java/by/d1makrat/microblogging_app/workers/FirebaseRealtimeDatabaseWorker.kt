@@ -1,6 +1,5 @@
 package by.d1makrat.microblogging_app.workers
 
-import android.util.Log
 import by.d1makrat.microblogging_app.model.User
 import com.google.firebase.database.*
 import io.reactivex.Completable
@@ -56,8 +55,6 @@ class FirebaseRealtimeDatabaseWorker {
         try {
             var postNumber: Long
 
-            Log.d(this.toString(), Thread.currentThread().name)
-
             val query = mDatabase.getReference("posts")
             query.addListenerForSingleValueEvent(object: ValueEventListener {
                 override fun onCancelled(databaseError: DatabaseError) {
@@ -76,17 +73,12 @@ class FirebaseRealtimeDatabaseWorker {
 
                     postReference = mDatabase.getReference("users").child(user.uid)
                     postReference.child("posts").child(postNumber.toString()).setValue(true)
-
-                    Log.d(this.toString(),"in onDataChange " + Thread.currentThread().name + System.currentTimeMillis().toString())
                 }
             })
-
-            Log.d(this.toString(), "after onDataChange " + Thread.currentThread().name + System.currentTimeMillis().toString())
         }
         catch (e: IOException){
             return Completable.error(e)
         }
-        Log.d(this.toString(), "before complete " + Thread.currentThread().name + System.currentTimeMillis().toString())
         return Completable.complete()
     }
 

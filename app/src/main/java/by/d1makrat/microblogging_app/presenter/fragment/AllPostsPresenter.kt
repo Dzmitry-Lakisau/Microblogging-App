@@ -32,12 +32,12 @@ class AllPostsPresenter: PostsPresenter() {
             else {
                 postsList.forEach{ it ->
                     val body =  (it.value as HashMap<*, *>)["body"].toString()
-                    val unixtime =  (it.value as HashMap<*, *>)["unixtime"].toString().toLong()
+                    val unixTime =  (it.value as HashMap<*, *>)["unixtime"].toString().toLong()
                     val userId =  (it.value as HashMap<*, *>)["user"].toString()
                     val name = (it.value as HashMap<*, *>)["name"].toString()
                     val surname =  (it.value as HashMap<*, *>)["surname"].toString()
 
-                    view?.loadedSuccessfully(Post(body, unixtime, userId, name, surname))
+                    view?.loadedSuccessfully(Post(body, unixTime, userId, name, surname))
                 }
             }
         }
