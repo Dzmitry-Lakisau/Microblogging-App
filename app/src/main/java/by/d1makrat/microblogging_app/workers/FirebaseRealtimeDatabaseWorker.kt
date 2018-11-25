@@ -68,7 +68,7 @@ class FirebaseRealtimeDatabaseWorker {
                     var postReference: DatabaseReference = query.child(postNumber.toString())
                     postReference.child(BODY_KEY).setValue(body)
                     postReference.child(UNIX_TIME_KEY).setValue(currentTime)
-                    postReference.child(USERS_KEY).setValue(user.uid)
+                    postReference.child(USER_KEY).setValue(user.uid)
                     postReference.child(NAME_KEY).setValue(user.name)
                     postReference.child(SURNAME_KEY).setValue(user.surname)
 
